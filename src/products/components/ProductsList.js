@@ -1,15 +1,10 @@
-import { useMemo } from "react";
-import { getProducts } from "../helpers/getProducts";
 import { ProductCard } from "./ProductCard";
 
-export const ProductsList = ({ publisher }) => {
-
-    const products = useMemo(() => getProducts(publisher), [publisher]);
-
+export const ProductsList = ({ data }) => {
     return (
-        <div className="row rows-cols-1 row-cols-md-3 g-3">
+        <div className="row row-cols-1 row-cols-md-3 g-4 mb-4">
             {
-                products.map(product => (
+                data.map(product => (
                     <ProductCard
                         key={product.id}
                         product={product}

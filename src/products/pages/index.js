@@ -1,4 +1,4 @@
-export * from './ProductsAllPage';
-export * from './ProductsByDatePage';
+export * from './ProductsPage';
+export * from './OrdersPage';
 export * from './ViewProductPage';
 export * from './SearchPage';

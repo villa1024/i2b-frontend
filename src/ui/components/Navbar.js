@@ -19,9 +19,9 @@ export const Navbar = () => {
                     </NavLink>
                     <NavLink
                         className={({ isActive }) => `nav-item nav-link ${isActive ? 'active' : '' }`}
-                        to="/products/getAllByDate"
+                        to="/products/orders"
                     >
-                        Entregas
+                        Ordenes
                     </NavLink>
                 </div>
             </div>

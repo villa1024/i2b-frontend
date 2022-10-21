@@ -1,21 +1,21 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { Navbar } from '../../ui';
-import { ProductsAllPage, ProductsByDatePage, SearchPage, ViewProductPage } from '../pages';
+import { ProductsPage, OrdersPage, SearchPage, ViewProductPage } from '../pages';
 
 export const PruebaRoutes = () => {
     return (
         <>
             <Navbar />
-            <div className="container mb-5">
+            <div className="container">
                 <Routes>
                     <Route
                         path="/products/getAll"
-                        element={<ProductsAllPage />}
+                        element={<ProductsPage />}
                     />
                     <Route
-                        path="/products/getAllByDate"
-                        element={<ProductsByDatePage />}
+                        path="/products/orders"
+                        element={<OrdersPage />}
                     />
                     <Route
                         path="/products/:id"
