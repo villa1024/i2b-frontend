@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { Navbar } from '../../ui';
-import { ProductsPage, OrdersPage, SearchPage, ViewProductPage } from '../pages';
+import { ProductsPage, OrdersPage, ViewProductPage } from '../pages';
 
 export const PruebaRoutes = () => {
     return (
@@ -20,10 +20,6 @@ export const PruebaRoutes = () => {
                     <Route
                         path="/products/:id"
                         element={<ViewProductPage />}
-                    />
-                    <Route
-                        path="/products/search"
-                        element={<SearchPage />}
                     />
                     <Route
                         path="/"
