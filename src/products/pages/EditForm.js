@@ -1,10 +1,7 @@
 import { useForm } from "../hooks/useForm";
 import backendApi from "../api/backendApi";
-import { useNavigate } from "react-router-dom";
 
-export const EditForm = ({ product }) => {
-
-    const navigate = useNavigate();
+export const EditForm = ({ product, getProductById }) => {
 
     const { name, price, description, onInputChange } = useForm({
         name: product.name,
@@ -21,7 +18,7 @@ export const EditForm = ({ product }) => {
                 description
             });
             if (data.ok) {
-                navigate(`products/${product.id}`);
+                getProductById();
             }
         } catch (error) {
             console.log(error);
