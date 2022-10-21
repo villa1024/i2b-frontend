@@ -7,7 +7,7 @@ export const PruebaRoutes = () => {
     return (
         <>
             <Navbar />
-            <div className="container">
+            <div className="container mb-5">
                 <Routes>
                     <Route
                         path="/products/getAll"

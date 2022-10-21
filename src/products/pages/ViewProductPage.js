@@ -19,7 +19,7 @@ export const ViewProductPage = () => {
     }
 
     return (
-        <div className="row mt-5">
+        <div className="row mt-5 animate__animated animate__fadeInLeft">
             <div className="col-4">
                 <img
                     src={`/assets/products/${product.id}.jpg`}

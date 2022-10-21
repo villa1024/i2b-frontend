@@ -5,7 +5,7 @@ export const ProductCard = ({ product }) => {
     const productImageUrl = `/assets/products/${product.id}.jpg`;
 
     return (
-        <div className="">
+        <div className="col animate__animated animate__fadeIn">
             <div className="card">
                 <div className="row no-gutters">
                     <div className="col-4">
