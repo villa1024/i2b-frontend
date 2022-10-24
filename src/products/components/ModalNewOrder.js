@@ -1,3 +1,5 @@
+import { useContext, useState } from 'react';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
@@ -5,6 +7,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+
+import { ProductContext } from '../context/ProductContext';
 
 const style = {
     position: 'absolute',
@@ -18,11 +22,19 @@ const style = {
     p: 4,
 };
 
-export const ModalNewOrder = ({ open, handleClose, date, handleChange, newOrder }) => {
+export const ModalNewOrder = () => {
+
+    const { openModal, handleCloseModal, newOrder } = useContext(ProductContext);
+
+    const [date, setDate] = useState('');
+    const handleChange = (event) => {
+        setDate(event.target.value);
+    };
+
     return (
         <Modal
-            open={open}
-            onClose={handleClose}
+            open={openModal}
+            onClose={handleCloseModal}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
@@ -47,14 +59,14 @@ export const ModalNewOrder = ({ open, handleClose, date, handleChange, newOrder 
                 <Button
                     variant="outlined"
                     className="mt-3 mx-2"
-                    onClick={handleClose}
+                    onClick={handleCloseModal}
                 >
                     Cancelar
                 </Button>
                 <Button
                     variant="contained"
                     className="mt-3"
-                    onClick={newOrder}
+                    onClick={() => newOrder(date)}
                 >
                     Guardar
                 </Button>

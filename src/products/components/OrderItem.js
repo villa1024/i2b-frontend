@@ -1,4 +1,11 @@
-export const OrderItem = ({ order, deleteOrder }) => {
+import { useContext } from "react";
+
+import { ProductContext } from "../context/ProductContext";
+
+export const OrderItem = ({ order }) => {
+
+    const { deleteOrder } = useContext(ProductContext);
+
     return (
         <div className="card mb-3 mx-2" style={{ width: '15rem' }} key={order.id}>
             <div className="card-body">

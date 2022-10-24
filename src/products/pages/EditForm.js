@@ -1,9 +1,11 @@
-import Swal from "sweetalert2";
+import { useContext } from "react";
 
+import { ProductContext } from "../context/ProductContext";
 import { useForm } from "../hooks/useForm";
-import backendApi from "../api/backendApi";
 
-export const EditForm = ({ product, getProductById }) => {
+export const EditForm = ({ product }) => {
+
+    const { updateProductInfo } = useContext(ProductContext);
 
     const { name, price, description, onInputChange } = useForm({
         name: product.name,
@@ -11,35 +13,6 @@ export const EditForm = ({ product, getProductById }) => {
         description: product.description,
         date: ''
     });
-
-    const updateProductInfo = async (e) => {
-        e.preventDefault();
-        try {
-            if (name === product.name && parseInt(price) === parseInt(product.price) && description === product.description) {
-                return Swal.fire(
-                    'Error!',
-                    'Debe cambiar algun valor para actualizar producto',
-                    'error'
-                );
-            }
-            const { data } = await backendApi.put(`products/editProduct`, {
-                id: product.id,
-                name,
-                price,
-                description
-            });
-            if (data.ok) {
-                getProductById();
-                Swal.fire(
-                    'Actualizado!',
-                    data.msg,
-                    'success'
-                );
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
     return (
         <form>
@@ -79,7 +52,7 @@ export const EditForm = ({ product, getProductById }) => {
             <button
                 type="submit"
                 className="btn btn-primary"
-                onClick={updateProductInfo}
+                onClick={(e) => updateProductInfo(e, name, price, description)}
             >
                 Actualizar
             </button>

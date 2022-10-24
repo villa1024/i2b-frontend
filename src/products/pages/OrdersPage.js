@@ -1,41 +1,40 @@
+import { useContext, useEffect } from "react";
+
+import { ProductContext } from "../context/ProductContext";
 import { ProductsList } from "../components/ProductsList";
 import { useForm } from "../hooks/useForm";
-import { useOrders } from "../hooks/useOrders";
+import { SearchInput } from "../components/SearchInput";
 
 export const OrdersPage = () => {
+
+    const { ordersList, getOrdersList } = useContext(ProductContext);
 
     const { search, onInputChange } = useForm({
         search: ''
     });
-    const { orders } = useOrders();
 
-    if (orders.length === 0) {
+    useEffect(() => {
+        getOrdersList();
+    }, []);
+
+    if (ordersList.length === 0) {
         return <h5>Cargando ordenes...</h5>
     }
 
     let results = [];
     if (!search) {
-        results = orders;
+        results = ordersList;
     } else {
-        results = orders.filter(order => order.name.toLowerCase().includes(search.toLowerCase()));
+        results = ordersList.filter(order => order.name.toLowerCase().includes(search.toLowerCase()));
     }
 
     return (
         <>
             <h1 className="mb-3">Ordenes</h1>
-            <div className="btn-toolbar mb-5">
-                <div className="input-group">
-                    <div className="input-group-text" id="btnGroupAddon">Buscar por nombre</div>
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Escriba aquí..."
-                        name="search"
-                        value={search}
-                        onChange={onInputChange}
-                    />
-                </div>
-            </div>
+            <SearchInput
+                search={search}
+                onInputChange={onInputChange}
+            />
             <ProductsList data={results} />
         </>
     );
