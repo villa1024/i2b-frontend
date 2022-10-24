@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 import { useForm } from "../hooks/useForm";
 import backendApi from "../api/backendApi";
 
@@ -10,15 +12,29 @@ export const EditForm = ({ product, getProductById }) => {
         date: ''
     });
 
-    const updateProductInfo = async () => {
+    const updateProductInfo = async (e) => {
+        e.preventDefault();
         try {
-            const { data } = await backendApi.put(`products/editProduct/${product.id}`, {
+            if (name === product.name && parseInt(price) === parseInt(product.price) && description === product.description) {
+                return Swal.fire(
+                    'Error!',
+                    'Debe cambiar algun valor para actualizar producto',
+                    'error'
+                );
+            }
+            const { data } = await backendApi.put(`products/editProduct`, {
+                id: product.id,
                 name,
                 price,
                 description
             });
             if (data.ok) {
                 getProductById();
+                Swal.fire(
+                    'Actualizado!',
+                    data.msg,
+                    'success'
+                );
             }
         } catch (error) {
             console.log(error);

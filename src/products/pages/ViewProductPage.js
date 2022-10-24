@@ -1,29 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import Swal from "sweetalert2";
 
 import backendApi from "../api/backendApi";
-import { useProductById } from "../hooks/useProductById";
 import { EditForm } from "./EditForm";
-
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
+import { OrderItem } from "../components/OrderItem";
+import { ModalNewOrder } from "../components/ModalNewOrder";
 
 export const ViewProductPage = () => {
 
@@ -49,6 +31,11 @@ export const ViewProductPage = () => {
             if (data.ok) {
                 setDate('');
                 handleClose();
+                Swal.fire(
+                    'Creado!',
+                    data.msg,
+                    'success'
+                );
                 getProductById();
             }
         } catch (error) {
@@ -56,17 +43,31 @@ export const ViewProductPage = () => {
         }
     };
 
-    const deleteOrder = async (order_id) => {
-        try {
-            const { data } = await backendApi.delete(`products/deleteOrder/${order_id}`);
-            if (data.ok) {
-                setDate('');
-                handleClose();
-                getProductById();
+    const deleteOrder = async (order) => {
+        Swal.fire({
+            title: order.date.split('-').reverse().join('-'),
+            text: "Seguro que desea borrar esta orden? esta acción no puede revertirse...",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Confirmar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const { data } = await backendApi.delete(`products/deleteOrder/${order.id}`);
+                if (data.ok) {
+                    setDate('');
+                    handleClose();
+                    getProductById();
+                }
+                Swal.fire(
+                    'Borrada!',
+                    data.msg,
+                    'success'
+                );
             }
-        } catch (error) {
-            console.log(error);
-        }
+        });
     };
 
     const getProductById = async () => {
@@ -92,7 +93,7 @@ export const ViewProductPage = () => {
     return (
         <>
             <div className="row mt-5 mb-5 animate__animated animate__fadeInLeft">
-                <div className="col-4">
+                <div className="col-4 centrar-imagen">
                     <img
                         src={`/assets/products/${(product.name).replace(' ', '-')}.jpg`}
                         alt={product.name}
@@ -122,70 +123,22 @@ export const ViewProductPage = () => {
                 <hr />
                 {
                     product.orders.map(order => (
-                        <div className="card mb-3" style={{ width: '20rem' }} key={order.id}>
-                            <div className="card-body">
-                                <h5 className="card-title text-center">{order.date.split('-').reverse().join('-')}</h5>
-                                <div className="text-center">
-                                    <button
-                                        type="button"
-                                        className="btn btn-primary mx-2"
-                                    >
-                                        Editar
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="btn btn-danger"
-                                        onClick={() => deleteOrder(order.id)}
-                                    >
-                                        Eliminar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        <OrderItem
+                            key={order.id}
+                            order={order}
+                            deleteOrder={deleteOrder}
+                        />
                     ))
                 }
             </div>
             {/* MODAL */}
-            <Modal
+            <ModalNewOrder
                 open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Fecha</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={date}
-                            label="date"
-                            onChange={handleChange}
-                        >
-                            <MenuItem value={'2022-11-01'}>01-11-2022</MenuItem>
-                            <MenuItem value={'2022-11-05'}>05-11-2022</MenuItem>
-                            <MenuItem value={'2022-11-10'}>10-11-2022</MenuItem>
-                            <MenuItem value={'2022-11-15'}>15-11-2022</MenuItem>
-                            <MenuItem value={'2022-11-20'}>20-11-2022</MenuItem>
-                            <MenuItem value={'2022-11-25'}>25-11-2022</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <Button
-                        variant="outlined"
-                        className="mt-3 mx-2"
-                        onClick={handleClose}
-                    >
-                        Cancelar
-                    </Button>
-                    <Button
-                        variant="contained"
-                        className="mt-3"
-                        onClick={newOrder}
-                    >
-                        Guardar
-                    </Button>
-                </Box>
-            </Modal>
+                date={date}
+                handleChange={handleChange}
+                handleClose={handleClose}
+                newOrder={newOrder}
+            />
         </>
     );
 };
