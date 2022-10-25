@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.415477de.css","mappings":"AAAA,IACI,gBACJ,CAEA,gBAEI,kBAAmB,CADnB,YAAa,CAEb,sBACJ","sources":["styles.css"],"sourcesContent":["img {\r\n    max-height: 200px;\r\n}\r\n\r\n.centrar-imagen {\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n}"],"names":[],"sourceRoot":""}
