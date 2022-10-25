@@ -1,19 +1,29 @@
-import { ProductsList } from "../components/ProductsList";
-import { useOrders } from "../hooks/useOrders";
+import { useContext, useEffect, useState } from "react";
+
+import { ProductContext } from "../context/ProductContext";
+import { OrdersTable } from "../components/Orders/OrdersTable";
 
 export const OrdersPage = () => {
 
-    const { orders } = useOrders();
+    const {
+        ordersList,
+        getOrdersList,
+    } = useContext(ProductContext);;
 
-    if (orders.length === 0) {
+    useEffect(() => {
+        getOrdersList();
+    }, []);
+
+    if (ordersList.length === 0) {
         return <h5>Cargando ordenes...</h5>
     }
 
     return (
         <>
-            <h1>Ordenes</h1>
-            <hr />
-            <ProductsList data={orders} />
+            <h1 className="mb-3">Ordenes</h1>
+            <OrdersTable
+                ordersList={ordersList}
+            />
         </>
     );
 };

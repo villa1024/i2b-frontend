@@ -1,32 +1,22 @@
+import { useContext } from "react";
+
+import { ProductContext } from "../context/ProductContext";
 import { useForm } from "../hooks/useForm";
-import backendApi from "../api/backendApi";
-import { useNavigate } from "react-router-dom";
 
 export const EditForm = ({ product }) => {
 
-    const navigate = useNavigate();
+    const {
+        updateProductInfo
+    } = useContext(ProductContext);
 
-    const { name, price, description, onInputChange } = useForm({
+    const { id, name, price, description, onInputChange, setFormState } = useForm({
+        id: product.id,
         name: product.name,
         price: product.price,
         description: product.description,
         date: ''
     });
 
-    const updateProductInfo = async () => {
-        try {
-            const { data } = await backendApi.put(`products/editProduct/${product.id}`, {
-                name,
-                price,
-                description
-            });
-            if (data.ok) {
-                navigate(`products/${product.id}`);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
     return (
         <form>
@@ -66,7 +56,7 @@ export const EditForm = ({ product }) => {
             <button
                 type="submit"
                 className="btn btn-primary"
-                onClick={updateProductInfo}
+                onClick={(e) => updateProductInfo(e, id, name, price, description)}
             >
                 Actualizar
             </button>

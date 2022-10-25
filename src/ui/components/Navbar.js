@@ -12,13 +12,13 @@ export const Navbar = () => {
             <div className="navbar-collapse">
                 <div className="navbar-nav">
                     <NavLink
-                        className={({ isActive }) => `nav-item nav-link ${isActive ? 'active' : '' }`}
+                        className={({ isActive }) => `nav-item nav-link ${isActive ? 'active' : ''}`}
                         to="/products/getAll"
                     >
                         Productos
                     </NavLink>
                     <NavLink
-                        className={({ isActive }) => `nav-item nav-link ${isActive ? 'active' : '' }`}
+                        className={({ isActive }) => `nav-item nav-link ${isActive ? 'active' : ''}`}
                         to="/products/orders"
                     >
                         Ordenes
