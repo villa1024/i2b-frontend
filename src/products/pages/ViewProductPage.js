@@ -2,9 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { ProductContext } from "../context/ProductContext";
-import { ModalNewOrder } from "../components/ModalNewOrder";
-import { EditForm } from "./EditForm";
-import { OrderItem } from "../components/OrderItem";
+import { EditForm } from "../components/EditForm";
+import { ModalNewOrder } from "../components/modal/ModalNewOrder";
+import { OrderItem } from "../components/Orders/OrderItem";
 
 export const ViewProductPage = () => {
 
@@ -20,7 +20,7 @@ export const ViewProductPage = () => {
         getProductById(id);
     }, []);
 
-    if (Object.values(product).length === 0) {
+    if (product.id != id) {
         return <h5>Cargando información...</h5>
     }
 

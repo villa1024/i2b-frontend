@@ -8,4 +8,8 @@ export const types = {
 
     setDateValue: '[Date] setDateValue',
     clearDateValue: '[Date] clearDateValue',
+
+    setFilterProductsByName: '[Filter] setFilterProductsByName',
+    setFilterTableByName: '[Filter] setFilterTableByName',
+    setTotalPages: '[Pages] setTotalPages',
 };

@@ -34,6 +34,21 @@ export const productReducer = (state = {}, action) => {
                 ...state,
                 openModal: false
             };
+        case types.setFilterProductsByName:
+            return {
+                ...state,
+                filterProductsByName: action.payload.data
+            };
+        case types.setFilterTableByName:
+            return {
+                ...state,
+                filterTableByName: action.payload.data
+            };
+        case types.setTotalPages:
+            return {
+                ...state,
+                totalPages: action.payload.totalPages
+            };
 
         default:
             return state;

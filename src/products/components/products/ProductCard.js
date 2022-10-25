@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+import { OrdersList } from '../Orders/OrdersList';
+
 export const ProductCard = ({ product }) => {
 
     const productImageUrl = `/assets/products/${(product.name).replace(' ', '-')}.jpg`;
@@ -23,29 +25,9 @@ export const ProductCard = ({ product }) => {
                             {
                                 (product.orders?.length > 0)
                                     ? (
-                                        <>
-                                            <p>
-                                                <a className="btn btn-primary" data-bs-toggle="collapse" href={`#${(product.name).replace(' ', '-')}`} role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                    Ver fechas
-                                                </a>
-                                            </p>
-                                            <div className="collapse" id={`${(product.name).replace(' ', '-')}`}>
-                                                <div className="card card-body">
-                                                    <ul className="list-group">
-                                                        {
-                                                            product.orders.map(order => (
-                                                                <li
-                                                                    className="list-group-item text-center"
-                                                                    key={order.id}
-                                                                >
-                                                                    {order.date.split('-').reverse().join('-')}
-                                                                </li>
-                                                            ))
-                                                        }
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </>
+                                        <OrdersList
+                                            product={product}
+                                        />
                                     )
                                     : (
                                         null

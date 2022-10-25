@@ -5,14 +5,18 @@ import { useForm } from "../hooks/useForm";
 
 export const EditForm = ({ product }) => {
 
-    const { updateProductInfo } = useContext(ProductContext);
+    const {
+        updateProductInfo
+    } = useContext(ProductContext);
 
-    const { name, price, description, onInputChange } = useForm({
+    const { id, name, price, description, onInputChange, setFormState } = useForm({
+        id: product.id,
         name: product.name,
         price: product.price,
         description: product.description,
         date: ''
     });
+
 
     return (
         <form>
@@ -52,7 +56,7 @@ export const EditForm = ({ product }) => {
             <button
                 type="submit"
                 className="btn btn-primary"
-                onClick={(e) => updateProductInfo(e, name, price, description)}
+                onClick={(e) => updateProductInfo(e, id, name, price, description)}
             >
                 Actualizar
             </button>

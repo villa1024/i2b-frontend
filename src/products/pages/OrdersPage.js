@@ -1,17 +1,14 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { ProductContext } from "../context/ProductContext";
-import { ProductsList } from "../components/ProductsList";
-import { useForm } from "../hooks/useForm";
-import { SearchInput } from "../components/SearchInput";
+import { OrdersTable } from "../components/Orders/OrdersTable";
 
 export const OrdersPage = () => {
 
-    const { ordersList, getOrdersList } = useContext(ProductContext);
-
-    const { search, onInputChange } = useForm({
-        search: ''
-    });
+    const {
+        ordersList,
+        getOrdersList,
+    } = useContext(ProductContext);;
 
     useEffect(() => {
         getOrdersList();
@@ -21,21 +18,12 @@ export const OrdersPage = () => {
         return <h5>Cargando ordenes...</h5>
     }
 
-    let results = [];
-    if (!search) {
-        results = ordersList;
-    } else {
-        results = ordersList.filter(order => order.name.toLowerCase().includes(search.toLowerCase()));
-    }
-
     return (
         <>
             <h1 className="mb-3">Ordenes</h1>
-            <SearchInput
-                search={search}
-                onInputChange={onInputChange}
+            <OrdersTable
+                ordersList={ordersList}
             />
-            <ProductsList data={results} />
         </>
     );
 };

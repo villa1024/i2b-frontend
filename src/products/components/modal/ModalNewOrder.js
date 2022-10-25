@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-import { ProductContext } from '../context/ProductContext';
+import { ProductContext } from '../../context/ProductContext';
 
 const style = {
     position: 'absolute',
@@ -24,7 +24,11 @@ const style = {
 
 export const ModalNewOrder = () => {
 
-    const { openModal, handleCloseModal, newOrder } = useContext(ProductContext);
+    const {
+        openModal,
+        handleCloseModal,
+        newOrder
+    } = useContext(ProductContext);
 
     const [date, setDate] = useState('');
     const handleChange = (event) => {

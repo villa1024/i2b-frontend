@@ -10,7 +10,10 @@ const initialState = {
     product: {},
     productsList: [],
     ordersList: [],
-    openModal: false
+    openModal: false,
+    filterProductsByName: [],
+    filterTableByName: [],
+    totalPages: 0,
 };
 
 export const ProductProvider = ({ children }) => {
@@ -46,26 +49,28 @@ export const ProductProvider = ({ children }) => {
         }
     };
 
-    const getProductsList = async () => {
+    const getProductsList = async (page = 0) => {
         try {
-            const { data } = await backendApi.get('products/getAll');
+            const { data } = await backendApi.get(`products/getAll?page=${page}`);
             if (!data.ok) {
                 console.log("Error cargando los productos...");
             }
             dispatch({
                 type: types.getProductsList,
                 payload: {
-                    data: data.products
+                    data: data.products.rows
                 }
             });
+            setFilterProductsByName(data.products.rows);
+            setTotalPages(data.totalPages);
         } catch (error) {
             console.log(error);
         }
     };
 
-    const getOrdersList = async () => {
+    const getOrdersList = async (page = 0) => {
         try {
-            const { data } = await backendApi.get('products/getAllOrders');
+            const { data } = await backendApi.get(`products/getAllOrders?page=${page}`);
             if (!data.ok) {
                 console.log("Error cargando las ordenes...");
             }
@@ -75,6 +80,8 @@ export const ProductProvider = ({ children }) => {
                     data: data.orders
                 }
             });
+            setFilterTableByName(data.orders);
+            setTotalPages(data.totalPages);
         } catch (error) {
             console.log(error);
         }
@@ -128,7 +135,7 @@ export const ProductProvider = ({ children }) => {
         });
     };
 
-    const updateProductInfo = async (e, name, price, description) => {
+    const updateProductInfo = async (e, id, name, price, description) => {
         e.preventDefault();
         try {
             if (name === productState.product.name && parseInt(price) === parseInt(productState.product.price) && description === productState.product.description) {
@@ -139,7 +146,7 @@ export const ProductProvider = ({ children }) => {
                 );
             }
             const { data } = await backendApi.put(`products/editProduct`, {
-                id: productState.product.id,
+                id,
                 name,
                 price,
                 description
@@ -157,18 +164,36 @@ export const ProductProvider = ({ children }) => {
         }
     };
 
-    // const setDateValue = (date) => {
-    //     dispatch({
-    //         type: types.setDateValue,
-    //         payload: {
-    //             date
-    //         }
-    //     });
-    // };
-
     const clearDateValue = () => {
         dispatch({
             tyep: types.clearDateValue
+        });
+    };
+
+    const setFilterProductsByName = (data) => {
+        dispatch({
+            type: types.setFilterProductsByName,
+            payload: {
+                data
+            }
+        });
+    };
+
+    const setFilterTableByName = (data) => {
+        dispatch({
+            type: types.setFilterTableByName,
+            payload: {
+                data
+            }
+        });
+    };
+
+    const setTotalPages = (totalPages) => {
+        dispatch({
+            type: types.setTotalPages,
+            payload: {
+                totalPages
+            }
         });
     };
 
@@ -178,6 +203,9 @@ export const ProductProvider = ({ children }) => {
 
             handleOpenModal,
             handleCloseModal,
+
+            setFilterProductsByName,
+            setFilterTableByName,
 
             getProductById,
             getProductsList,
